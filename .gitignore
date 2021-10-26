@@ -10,7 +10,7 @@ __pycache__/
 backend/backnips/*.log 
 backend/backnips/*.pot 
 backend/backnips/*.pyc
-backend/backnips/backnips/__pycache__/
+backend/backnips/backnips/__pycache__
 local_settings.py 
 backend/backnips/db.sqlite3 
 backend/backnips/media

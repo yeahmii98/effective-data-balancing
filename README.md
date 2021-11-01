@@ -22,7 +22,7 @@
 3. Flask 실행
   ```shell
   # clone 받은 폴더 안에서 실행
-  python backend/backnibs.py
+  python backend/app.py
   ```
 4. localhost:5000에서 반환값 확인
 

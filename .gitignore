@@ -6,14 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
-### Django ### 
-backend/backnips/*.log 
-backend/backnips/*.pot 
-backend/backnips/*.pyc
-backend/backnips/backnips/__pycache__
-local_settings.py 
-backend/backnips/db.sqlite3 
-backend/backnips/media
+### Flask ### 
+backend/*.log 
+backend/*.pot 
+backend/*.pyc
+backend/__pycache__
 
 # Distribution / packaging
 .Python

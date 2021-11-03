@@ -14,19 +14,19 @@ def get_detection():
             result = json.load(j)
         return result
     else:
-        return "sample output"
+        return ""
 
 
 @app.route("/fileUpload", methods=["POST"])
 def file_upload():
     file = request.files["file"]
-    file.save(os.path.join("test_sample", secure_filename(file.filename)))
+    file.save(os.path.join("test_sample", secure_filename(file.filename)))  # s3
     return "file uploaded"
 
 
 @app.route("/getClassification/")
 def get_classification():
-    return "Return Classification Result"
+    return "Return sample"
 
 
 if __name__ == "__main__":

@@ -1,11 +1,27 @@
-from flask import Flask
+import os
+import json
+from flask import Flask, request
+from werkzeug import secure_filename
 
 app = Flask(__name__)
 
 
-@app.route("/getDetection/")
+@app.route("/getDetection", methods=["GET"])
 def get_detection():
-    return "Return Detection Result"
+    file_name = request.args["file_name"]
+    if file_name:
+        with open("test_sample/detection_sample.json", "r", encoding="utf-8") as j:
+            result = json.load(j)
+        return result
+    else:
+        return "sample output"
+
+
+@app.route("/fileUpload", methods=["POST"])
+def file_upload():
+    file = request.files["file"]
+    file.save(os.path.join("test_sample", secure_filename(file.filename)))
+    return "file uploaded"
 
 
 @app.route("/getClassification/")

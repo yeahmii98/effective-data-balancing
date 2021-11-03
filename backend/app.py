@@ -6,15 +6,15 @@ from werkzeug import secure_filename
 app = Flask(__name__)
 
 
-@app.route("/getDetection", methods=["GET"])
-def get_detection():
+@app.route("/getPlateDetection", methods=["GET"])
+def get_plate_detection():
     file_name = request.args["file_name"]
     if file_name:
         with open("test_sample/detection_sample.json", "r", encoding="utf-8") as j:
             result = json.load(j)
         return result
     else:
-        return ""
+        return "sample output"
 
 
 @app.route("/fileUpload", methods=["POST"])

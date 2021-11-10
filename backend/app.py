@@ -1,6 +1,6 @@
 import os
 import json
-from flask import Flask, request
+from flask import Flask, request, render_template
 from werkzeug import secure_filename
 
 app = Flask(__name__)
@@ -17,6 +17,11 @@ def get_plate_detection():
         return "sample output"
 
 
+@app.route("/showImg")
+def showImg():
+    return render_template("showImg.html")
+
+
 @app.route("/fileUpload", methods=["POST"])
 def file_upload():
     file = request.files["file"]
@@ -30,5 +35,4 @@ def get_classification():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
-    # 디버그 모드. 변경을 자동으로 감지하여 리로드하며 디버거를 제공한다. 운영 환경에서는 절대 사용 금지!
+    app.run(debug=True, host="0.0.0.0", port=8080)

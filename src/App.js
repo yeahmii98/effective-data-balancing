@@ -1,19 +1,22 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom'; /* version 6 변경사항 유의 */
 import Navigation from './app/navigation/index';
-import Home from './app/home/Home';
+import Home from './app/home/index';
 import './styles/sass/main.css';
 
 function App() {
   return (
-    <Router>
+    <div className="main-layout">
       <Navigation />
-      <Routes>
-        <Route path="/" exact component={Home} />
-        {/* <Route path="/ToGithub" component={ToGithub} /> */}
-        {/* <Route path="/About" component={About} /> */}
-        {/* <Route path="/Contact" component={Contact} /> */}
-      </Routes>
-    </Router>
+      <div className="content">
+        <Routes>
+          <Route path="/" element={<Home />} exact />
+          {/* <Route path="/Page" element={<Page />} /> */}
+          {/* <Route path="/ToGithub" component={ToGithub} /> */}
+          {/* <Route path="/About" component={About} /> */}
+          {/* <Route path="/Contact" component={Contact} /> */}
+        </Routes>
+      </div>
+    </div>
   );
 }
 

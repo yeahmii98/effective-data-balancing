@@ -1,10 +1,27 @@
 @import './common/color.scss';
 @import './common/navigation.scss';
+@import './common/home.scss';
 
 html {
-    background-color: '#000000';
+    font-size: 5px;
 }
 
 body {
     margin: 0px;
+}
+
+.main-layout {
+    width: 100%;
+    height: fit-content;
+    // text-align: center;
+    // align-items: center;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
 }

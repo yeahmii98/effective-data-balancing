@@ -1,11 +1,7 @@
-import useState from 'react';
 import { Link } from 'react-router-dom';
 import BoxData from '../containers/BoxData';
 
 const BoxList = () => {
-  // const [ex, setEx] = useState(false);
-  // const
-
   return (
     <ul className="list-box">
       {BoxData.map((item, index) => {

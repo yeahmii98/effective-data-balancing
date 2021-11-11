@@ -1,31 +1,32 @@
 import os
 import json
-from flask import Flask, request, render_template
+import requests
+import s3_access
+from flask import Flask, request
 from werkzeug import secure_filename
+from dotenv import load_dotenv
 
 app = Flask(__name__)
+load_dotenv()
+bucket = s3_access.get_s3_bucket()
 
 
 @app.route("/getPlateDetection", methods=["GET"])
 def get_plate_detection():
     file_name = request.args["file_name"]
-    if file_name:
-        with open("test_sample/detection_sample.json", "r", encoding="utf-8") as j:
-            result = json.load(j)
-        return result
-    else:
-        return "sample output"
+    params = {"source": file_name}
+    URL = os.getenv("URL")
+    response = requests.get(URL, params)
 
-
-@app.route("/showImg")
-def showImg():
-    return render_template("showImg.html")
+    return response.text  # s3 endpoint 전달? 아니면 img 다운로드 후 binary file 전달?
 
 
 @app.route("/fileUpload", methods=["POST"])
 def file_upload():
     file = request.files["file"]
-    file.save(os.path.join("test_sample", secure_filename(file.filename)))  # s3
+    file.save(secure_filename(file.filename))
+    s3_access.upload_file(bucket, file.filename, file.filename)
+    os.remove(file.filename)
     return "file uploaded"
 
 

@@ -10,6 +10,11 @@ load_dotenv()
 bucket = s3_access.get_s3_bucket()
 
 
+@app.route("/healthcheck/")
+def health_check():
+    return
+
+
 @app.route("/getPlateDetection", methods=["GET"])
 def get_plate_detection():
     file_name = request.args["file_name"]

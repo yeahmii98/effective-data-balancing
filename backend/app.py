@@ -19,7 +19,8 @@ def health_check():
 def get_plate_detection():
     file_name = request.args["file_name"]
     params = {"source": file_name}
-    URL = os.getenv("URL")
+    URL = os.getenv("PLATE_DETECTION_URL")
+    print(URL)
     response = requests.get(URL, params)
     return response.text  # s3 endpoint 전달? 아니면 img 다운로드 후 binary file 전달?
 

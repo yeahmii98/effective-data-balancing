@@ -1,5 +1,8 @@
 import os
 import boto3
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 def get_s3_bucket():
@@ -14,6 +17,7 @@ def get_s3_bucket():
 
 def upload_file(bucket, file_path, key_file):
     bucket.upload_file(file_path, key_file)
+    os.remove(file_path)
 
 
 def download_file(bucket, file_name, file_path):

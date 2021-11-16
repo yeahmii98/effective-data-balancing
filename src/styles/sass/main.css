@@ -22,6 +22,10 @@
   box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.12);
 }
 
+.box-component.explain {
+  background-color: #5673EB;
+}
+
 .box-component a {
   display: flex;
   justify-content: center;
@@ -43,27 +47,37 @@
   height: 85%;
 }
 
+.box-content span {
+  font-size: 2.5rem;
+  color: gray;
+}
+
+.box-content strong {
+  padding: 8px 0 8px 5px;
+  font-size: 7rem;
+}
+
 .navbar {
   background-color: #FFFFFF;
-  height: 80px;
+  height: 110px;
   display: flex;
   justify-items: center;
   align-items: center;
 }
 
 .menu-bars {
-  margin-left: 30px;
-  font-size: 25px;
+  margin-left: 40px;
+  font-size: 30px;
   background: none;
 }
 
 #main-logo {
-  width: 180px;
-  margin: 0 0 2px 20px;
+  width: 40rem;
+  margin: 0 0 5px 20px;
 }
 
 #github {
-  width: 80px;
+  width: 90px;
   position: absolute;
   right: 50px;
 }
@@ -240,6 +254,26 @@ html {
 
 body {
   margin: 0px;
+}
+
+@font-face {
+  font-family: "WelcomeRegular";
+  src: url("../fonts/WelcomeRegular.ttf");
+}
+@font-face {
+  font-family: "locus_sangsang";
+  src: url("../fonts/locus_sangsang.ttf");
+}
+@font-face {
+  font-family: "NEXONLv1GothicRegular";
+  src: url("../fonts/NEXONLv1GothicRegular.ttf");
+}
+@font-face {
+  font-family: "NEXONLv1GothicLight";
+  src: url("../fonts/NEXONLv1GothicLight.ttf");
+}
+* {
+  font-family: "NEXONLv1GothicRegular";
 }
 
 .main-layout {

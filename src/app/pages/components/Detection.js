@@ -1,3 +1,5 @@
+import UploadImage from './UploadImage';
+
 const Detection = () => {
   return (
     <>
@@ -23,16 +25,17 @@ const Detection = () => {
               샘플을 선택해 결과를 확인해 보세요.
             </p>
             <button className="btn-q">샘플테스트</button>
+            <UploadImage />
           </div>
           <div className="box_com code">
-              <ul className="code-select">
-                  <li>
-                      <button>TEXT</button>
-                  </li>
-                  <li>
-                      <button>JSON</button>
-                  </li>
-              </ul>
+            <ul className="code-select">
+              <li>
+                <button>TEXT</button>
+              </li>
+              <li>
+                <button>JSON</button>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

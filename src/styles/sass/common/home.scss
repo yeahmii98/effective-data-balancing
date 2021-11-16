@@ -25,6 +25,15 @@
     box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.12);
 }
 
+.box-component.explain {
+    background-color: $lightBlue;
+}
+
+.box-component a:hover {
+    
+    // background-color: $selected-component;
+}
+
 .box-component a {
     display: flex;
     justify-content: center;
@@ -44,4 +53,14 @@
     flex-direction: column;
     width: 85%;
     height: 85%;
+}
+
+.box-content span {
+    font-size: 2.5rem;
+    color: gray
+}
+
+.box-content strong {
+    padding: 8px 0 8px 5px;
+    font-size: 7rem;
 }

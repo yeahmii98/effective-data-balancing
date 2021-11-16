@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import * as FaIcons from 'react-icons/fa';
 import * as AiIcons from 'react-icons/ai';
+import { BsGridFill } from 'react-icons/bs';
 import { IconContext } from 'react-icons'; /* 아이콘 컬러 전체 변경 기능 */
 import { Link } from 'react-router-dom';
 import SidebarData from '../containers/SidebarData';
@@ -18,7 +18,7 @@ function Navbar() {
         {/* 네비게이션 토글 코드*/}
         <div className="navbar">
           <Link to="#" className="menu-bars">
-            <FaIcons.FaBars onClick={showSidebar} />
+            <BsGridFill onClick={showSidebar} />
           </Link>
           <img id="main-logo" src={mainLogo}></img>
           <img id="github" src={github}></img>

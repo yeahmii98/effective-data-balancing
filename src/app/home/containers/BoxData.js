@@ -20,7 +20,7 @@ const BoxData = [
     title: '',
     icon: '',
     path: '',
-    cName: 'box-component',
+    cName: 'box-component explain',
   },
   {
     topic: '',

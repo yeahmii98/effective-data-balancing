@@ -6,14 +6,17 @@ __pycache__/
 # C extensions
 *.so
 
-### Django ### 
-backend/backnips/*.log 
-backend/backnips/*.pot 
-backend/backnips/*.pyc
-backend/backnips/backnips/__pycache__
-local_settings.py 
-backend/backnips/db.sqlite3 
-backend/backnips/media
+*/weights
+*/bounding_box/*.ttf
+*/__pycache__
+*/*/__pycache__
+
+
+### Flask ### 
+backend/*.log 
+backend/*.pot 
+backend/*.pyc
+backend/__pycache__
 
 # Distribution / packaging
 .Python
@@ -144,7 +147,20 @@ dmypy.json
 .pytype/
 
 # Cython debug symbols
-cython_debug/# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+cython_debug/
+
+# Cython debug symbols
+cython_debug/
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+### Django ### 
+backend/backnips/*.log 
+backend/backnips/*.pot 
+backend/backnips/*.pyc
+backend/backnips/backnips/__pycache__
+local_settings.py 
+backend/backnips/db.sqlite3 
+backend/backnips/media
 
 # dependencies
 /node_modules

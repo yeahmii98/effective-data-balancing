@@ -16,10 +16,10 @@ const BoxData = [
     cName: 'box-component',
   },
   {
-    topic: '',
-    title: '',
+    topic: 'adsfsdfd',
+    title: 'sfsadfaaads',
     icon: '',
-    path: '',
+    path: '/',
     cName: 'box-component explain',
   },
   {

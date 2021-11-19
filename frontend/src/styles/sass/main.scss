@@ -1,0 +1,50 @@
+@import './common/color.scss';
+@import './common/home.scss';
+@import './common/navigation.scss';
+@import './common/pages.scss';
+
+html {
+    font-size: 5px;
+}
+
+body {
+    margin: 0px;
+}
+
+@font-face {
+    font-family: "WelcomeRegular";
+    src: url("../fonts/WelcomeRegular.ttf");
+}
+
+@font-face {
+    font-family: "locus_sangsang";
+    src: url("../fonts/locus_sangsang.ttf");
+}
+
+@font-face {
+    font-family: "NEXONLv1GothicRegular";
+    src: url("../fonts/NEXONLv1GothicRegular.ttf");
+}
+
+@font-face {
+    font-family: "NEXONLv1GothicLight";
+    src: url("../fonts/NEXONLv1GothicLight.ttf");
+}
+
+* {
+    font-family: "NEXONLv1GothicRegular";
+}
+
+.main-layout {
+    width: 100%;
+    height: fit-content;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: fit-content;
+    box-sizing: border-box;
+}

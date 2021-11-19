@@ -1,0 +1,88 @@
+@import './color.scss';
+
+.list-box {
+    display: flex;
+    flex-direction: row;
+    // width: 1500px;
+    width: 95%;
+    height: 350px;
+    padding-left: 0px;
+    margin-top: 120px;
+}
+
+.list-box li {
+    display: inline-flex;
+    box-sizing: border-box;
+    margin: 0 10px 0 10px;
+}
+
+.box-component {
+    width: 100%;
+    height: 100%;
+    background-color: #FFF;
+    border: 1px solid $lightGray;
+    border-radius: 10px 10px 10px 10px;
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.12);
+}
+
+.box-component a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    color: #000;
+    text-decoration: none;
+}
+
+.box-component a:hover {
+    background-color: $selected-component;
+}
+
+.box-component.explain {
+    background-color: $lightBlue;
+}
+
+.box-content {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    height: 85%;
+}
+
+.box-content span {
+    font-size: 2.5rem;
+    color: gray
+}
+
+.box-content strong {
+    padding: 8px 0 8px 5px;
+    font-size: 7rem;
+}
+
+.explain-coponent {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.box-content.explain {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    height: 85%;
+}
+
+.explain-title {
+    color: #FFF;
+    font-size: 7rem;
+    font-family: "WelcomeRegular";
+}
+
+.box-content.explain span {
+    font-size: 2.5rem;
+    color: #FFF;
+    padding: 5px;
+}

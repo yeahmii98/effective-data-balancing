@@ -12,7 +12,7 @@ bucket = s3_access.get_s3_bucket()
 
 @app.route("/healthcheck/")
 def health_check():
-    return
+    return "200 OK"
 
 
 @app.route("/getPlateDetection", methods=["GET"])
@@ -20,7 +20,6 @@ def get_plate_detection():
     file_name = request.args["file_name"]
     params = {"source": file_name}
     URL = os.getenv("PLATE_DETECTION_URL")
-    print(URL)
     response = requests.get(URL, params)
     return response.text  # s3 endpoint 전달? 아니면 img 다운로드 후 binary file 전달?
 

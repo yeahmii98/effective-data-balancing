@@ -24,7 +24,7 @@ def detect(source=None, save_img=True):
     model = Darknet(cfg_path, imgsz)
 
     # Load weights
-    model.load_state_dict(torch.load(weights, map_location=device)["model"])
+    model.load_state_dict(torch.load(weights, map_location=device)["model"], strict=False)
 
     # Second-stage classifier
     classify = False
@@ -43,13 +43,8 @@ def detect(source=None, save_img=True):
     if half:
         model.half()
 
-    # download s3 image
-    source_bucket = s3_access.get_s3_bucket()
-    if source:
-        file_path = os.path.join("/tmp", source)
-        s3_access.download_file(source_bucket, source, file_path)
-    else:
-        file_path = "sample.png"
+    # get source
+    file_path = source if source else "sample.png"
 
     # Set Dataloader
     dataset = LoadImages(file_path, img_size=imgsz)
@@ -88,6 +83,7 @@ def detect(source=None, save_img=True):
 
         h, w = img.shape[2:]
         save_dict = {"result": {"width": w, "height": h, "objects": []}}
+        save_labels = []
 
         # Process detections
         for i, det in enumerate(pred):  # detections for image i
@@ -115,6 +111,7 @@ def detect(source=None, save_img=True):
                     object_dict["right"] = int(xyxy[2]) / w
                     object_dict["bottom"] = int(xyxy[3]) / h
                     save_dict["result"]["objects"].append(object_dict)
+                    save_labels.append([int(xyxy[0]) / w, label])
 
             save_dict["result"]["objects"].sort(key=lambda x: x["left"])
             print("%sDone. (%.3fs)" % (s, t2 - t1))
@@ -129,12 +126,20 @@ def detect(source=None, save_img=True):
                     cv2.imwrite(output_save_path, im0)
 
     print("Done. (%.3fs)" % (time.time() - t0))
+    save_labels.sort(key=lambda x: x[0])
+    res_label = [x[1] for x in save_labels]
     json_file_name = origin_name + "_output.json"
     json_save_path = os.path.join(path, json_file_name)
     with open(json_save_path, "w", encoding="utf-8") as f:
         json.dump(save_dict, f, ensure_ascii=False)
 
-    s3_access.upload_file(source_bucket, output_save_path, output_file_name)
-    s3_access.upload_file(source_bucket, json_save_path, json_file_name)
+    client = s3_access.get_s3_client()
+    s3_access.upload_file(client, output_save_path, output_file_name)
+    s3_access.upload_file(client, json_save_path, json_file_name)
 
-    return output_file_name
+    res_json = {
+        "img_url": s3_access.get_public_url(client, output_file_name),
+        "json_url": s3_access.get_public_url(client, json_file_name),
+        "text_arr": res_label,
+    }
+    return res_json

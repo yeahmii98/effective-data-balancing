@@ -24,7 +24,7 @@ def detect(source=None, save_img=True):
     model = Darknet(cfg_path, imgsz)
 
     # Load weights
-    model.load_state_dict(torch.load(weights, map_location=device)["model"])
+    model.load_state_dict(torch.load(weights, map_location=device)["model"], strict=False)
 
     # Second-stage classifier
     classify = False
@@ -43,13 +43,8 @@ def detect(source=None, save_img=True):
     if half:
         model.half()
 
-    # download s3 image
-    source_bucket = s3_access.get_s3_bucket()
-    if source:
-        file_path = os.path.join("/tmp", source)
-        s3_access.download_file(source_bucket, source, file_path)
-    else:
-        file_path = "sample.png"
+    # get source
+    file_path = source if source else "sample.png"
 
     # Set Dataloader
     dataset = LoadImages(file_path, img_size=imgsz)
@@ -134,7 +129,12 @@ def detect(source=None, save_img=True):
     with open(json_save_path, "w", encoding="utf-8") as f:
         json.dump(save_dict, f, ensure_ascii=False)
 
-    s3_access.upload_file(source_bucket, output_save_path, output_file_name)
-    s3_access.upload_file(source_bucket, json_save_path, json_file_name)
+    client = s3_access.get_s3_client()
+    s3_access.upload_file(client, output_save_path, output_file_name)
+    s3_access.upload_file(client, json_save_path, json_file_name)
 
-    return output_file_name
+    res_json = {
+        "img_url": s3_access.get_public_url(client, output_file_name),
+        "json_url": s3_access.get_public_url(client, json_file_name),
+    }
+    return res_json

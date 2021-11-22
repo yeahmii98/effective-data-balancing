@@ -1,6 +1,6 @@
 import set_weights
 
-# set_weights.get_files()
+set_weights.get_files()
 
 import detect_image
 from flask import Flask, request

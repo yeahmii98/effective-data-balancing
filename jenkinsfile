@@ -1,0 +1,66 @@
+node {
+  try {
+    slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} Start Build Image", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+    stage('Clone repository') {
+      sh 'cd /var/lib/jenkins/workspace/Jenkins_to_ECR'
+      sh 'rm -rf *'
+      checkout scm
+      slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} Cloning done", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+    }
+    stage('Backend : Build') {
+      backend_app = docker.build("525348550799.dkr.ecr.ap-northeast-2.amazonaws.com/kakao-ecr:backend", "-f ./backend/Dockerfile ./backend")
+      slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} Backend => Build", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+    }
+    stage('Backend : Push') {
+      docker.withRegistry('https://525348550799.dkr.ecr.ap-northeast-2.amazonaws.com', 'ecr:ap-northeast-2:jenkins_to_ecr_key') {
+        backend_app.push("backend")
+        // backend_app.push("latest")
+      }
+      sh "docker rmi -f \$(docker images -q)" 
+
+      slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} Backend => Push", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+    }
+    stage('Frontend : Build') {
+      frontend_app = docker.build("525348550799.dkr.ecr.ap-northeast-2.amazonaws.com/kakao-ecr:frontend", "-f ./frontend/Dockerfile ./frontend")
+      slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} Frontend => Build", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+    }
+    stage('Frontend : Push') {
+      docker.withRegistry('https://525348550799.dkr.ecr.ap-northeast-2.amazonaws.com', 'ecr:ap-northeast-2:jenkins_to_ecr_key') {
+        frontend_app.push("frontend")
+        // frontend_app.push("latest")
+      }
+      slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} Frontend => Push", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+      sh "docker rmi -f \$(docker images -q)"
+    }
+    stage('AICore1 : Build') {
+      aicore1_app = docker.build("525348550799.dkr.ecr.ap-northeast-2.amazonaws.com/kakao-ecr:aicore1", "-f ./car_license_detection/Dockerfile ./car_license_detection")
+      slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} AICore1 => Build", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+    }
+    stage('AICore1 : Push') {
+      docker.withRegistry('https://525348550799.dkr.ecr.ap-northeast-2.amazonaws.com', 'ecr:ap-northeast-2:jenkins_to_ecr_key') {
+        aicore1_app.push("aicore1")
+        // aicore1_app.push("latest")
+      }
+      slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} AICore1 => Push", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+      sh "docker rmi -f \$(docker images -q)"
+    }
+    stage('AICore2 : Build') {
+      aicore2_app = docker.build("525348550799.dkr.ecr.ap-northeast-2.amazonaws.com/kakao-ecr:aicore2", "-f ./aicore2/Dockerfile ./aicore2")
+      slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} AICore2 => Build", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+    }
+    stage('AICore2 : Push') {
+      docker.withRegistry('https://525348550799.dkr.ecr.ap-northeast-2.amazonaws.com', 'ecr:ap-northeast-2:jenkins_to_ecr_key') {
+        aicore2_app.push("aicore2")
+        // aicore2_app.push("latest")
+      }
+      sh "docker rmi -f \$(docker images -q)"
+      slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} AICore2 => Push", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+    }
+    slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} Build Success", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+
+  } catch (e) {
+    echo "Failed: ${e}"
+    slackSend channel: '#jenkins_noti', color: '#FF0000', message: "${JOB_NAME} - #${BUILD_NUMBER} Build Error", teamDomain: 'test-rg41273', tokenCredentialId: 'slack-token'
+  }
+}
+

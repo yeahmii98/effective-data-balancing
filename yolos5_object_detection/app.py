@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
 def main():
-    source = request.args["source"]
+    source = request.args["file_name"]
     response = detect_image.detect(source=source)
     return response
 

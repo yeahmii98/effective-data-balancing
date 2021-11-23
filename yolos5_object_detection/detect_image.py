@@ -1,4 +1,3 @@
-
 import torch
 import os
 import s3_access
@@ -16,7 +15,7 @@ def detect(source=None, save_img=True):
     s3_access.download_file(source_bucket, source, file_path)
 
     # 5.저장된 이미지로 모델 업로드 및 실행
-    model = torch.load('./' + 'Detection_model.pt')
+    model = torch.load("weights/yolov5_object_detection.pt")
     Model_input_image = [file_path]
     results = model(Model_input_image, size=640)
 
@@ -36,7 +35,7 @@ def detect(source=None, save_img=True):
     # 9.json 저장 파일 경로지정.
     json_file_name = origin_name + "_output.json"
     # 10.json 파일로 저장
-    json_input_data.to_json(json_file_name, orient='table')
+    json_input_data.to_json(json_file_name, orient="table")
     json_save_path = os.path.join(path, json_file_name)
 
     client = s3_access.get_s3_client()
@@ -48,6 +47,5 @@ def detect(source=None, save_img=True):
         "json_url": s3_access.get_public_url(client, json_file_name),
         "text_arr": res_label,
     }
-
 
     return output_file_name

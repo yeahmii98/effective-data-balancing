@@ -5,24 +5,20 @@ import s3_access
 from torchvision import transforms
 from flask import Flask, request
 import os
-from pathlib import Path
 app = Flask(__name__)
 
 
-def classfication(source=None, save_img=True):
+def classfy(source=None, save_img=True):
     source_bucket = s3_access.get_s3_bucket()
-    # 4.s3에서 받아오고 로컬에 저장
-    # source = img.jpg
+
     file_path = os.path.join('Imageclassfication', source)
     s3_access.download_file(source_bucket, source, file_path)
-    # 5.저장된 이미지로 모델 업로드 및 실행
+
     model = torch.load('./Imageclassfication/' + 'classfications')
     # source = img.jpg
     Model_input_image = file_path
 
     # Preprocess image
-    # 평균과 표준(이미지에 대한)
-
     tfms = transforms.Compose([transforms.Resize(224), transforms.ToTensor(),
                                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]), ])
 
@@ -39,8 +35,8 @@ def classfication(source=None, save_img=True):
     model.eval()
     with torch.no_grad():
         outputs = model(img)
-    # Print predictions
-    print('-----')
+
+    #json
     save_dict = {"result": {"classfy": [], "conf": []}}
     for idx in torch.topk(outputs, k=1).indices.squeeze(0).tolist():
         object_dict = {}
@@ -55,10 +51,13 @@ def classfication(source=None, save_img=True):
     json_save_path = os.path.join('Imageclassfication',json_file_name)
     with open(json_save_path, "w", encoding="utf-8") as f:
         json.dump(save_dict, f, ensure_ascii=False)
+
+
     client = s3_access.get_s3_client()
     #인풋이미지와 아웃풋이미지가 같아서 같이썼음
     #file_path= /Imageclassfication/img.jpg
-    s3_access.upload_file(source_bucket, file_path, file_path)
+    output_file_name = file_path
+    s3_access.upload_file(source_bucket, file_path, output_file_name)
     s3_access.upload_file(source_bucket, json_save_path, json_file_name)
 
     res_json = {
@@ -66,3 +65,5 @@ def classfication(source=None, save_img=True):
         "json_url": s3_access.get_public_url(client, json_file_name),
         "text_arr": res_label,
     }
+    # file_path= /Imageclassfication/img.jpg
+    return output_file_name

@@ -1,19 +1,16 @@
 
 import torch
-from PIL import Image
-import boto3
 import os
-import pandas as pd
 import s3_access
 from flask import Flask, request
-from pathlib import Path
+
 app = Flask(__name__)
 
 
 def detect(source=None, save_img=True):
     source_bucket = s3_access.get_s3_bucket()
     # 3.s3이미지 받아와서 로컬에 저장할 경로 이미지 만들 때
-    file_path = os.path.join("/test", source)
+    file_path = os.path.join("/app", source)
 
     # 4.s3에서 받아오고 로컬에 저장
     s3_access.download_file(source_bucket, source, file_path)
@@ -23,7 +20,7 @@ def detect(source=None, save_img=True):
     Model_input_image = [file_path]
     results = model(Model_input_image, size=640)
 
-    path, filename = "/test", "image0.jpg"
+    path, filename = "/app", "image0.jpg"
     # 6.파일경로와 확장자 분리 origin_name = /test/image0
     origin_name, ext = os.path.splitext(filename)
 

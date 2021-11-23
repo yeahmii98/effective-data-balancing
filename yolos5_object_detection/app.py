@@ -1,4 +1,3 @@
-import torch
 import detect_image
 from flask import Flask, request
 

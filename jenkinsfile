@@ -11,6 +11,7 @@ node {
       frontend_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/frontend:${BUILD_NUMBER}", "-f ./frontend/Dockerfile ./frontend")
       docker.withRegistry('https://525348550799.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr:ap-southeast-1:jenkins_to_ecr_key') {
       frontend_app.push()
+     }
       sh "docker rmi -f \$(docker images -q)"
       slackSend channel: '#cicd', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} Frontend => Build/Push", teamDomain: 'k8sproject5', tokenCredentialId: 'kakaonibs-slack'
     }
@@ -19,6 +20,7 @@ node {
       plate_detection_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/plate-detection:${BUILD_NUMBER}", "-f ./car_license_detection/Dockerfile ./car_license_detection")
       docker.withRegistry('https://525348550799.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr:ap-southeast-1:jenkins_to_ecr_key') {
       plate_detection_app.push()
+        }
       sh "docker rmi -f \$(docker images -q)"
       slackSend channel: '#cicd', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} plate-detection => Build/Push", teamDomain: 'k8sproject5', tokenCredentialId: 'kakaonibs-slack'
     }
@@ -27,6 +29,7 @@ node {
       pose_estimation_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/pose-estimation:${BUILD_NUMBER}", "-f ./pose_estimation/Dockerfile ./pose_estimation")
       docker.withRegistry('https://525348550799.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr:ap-southeast-1:jenkins_to_ecr_key') {
       pose_estimation_app.push()
+         }
       sh "docker rmi -f \$(docker images -q)"
       slackSend channel: '#cicd', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} pose-estimation => Build/Push", teamDomain: 'k8sproject5', tokenCredentialId: 'kakaonibs-slack'
     }
@@ -35,6 +38,8 @@ node {
       yolov5_object_detection_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/yolov5_object_detection:${BUILD_NUMBER}", "-f ./yolov5_object_detection/Dockerfile ./yolov5_object_detection")
       docker.withRegistry('https://525348550799.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr:ap-southeast-1:jenkins_to_ecr_key') {
       yolov5_object_detection_app.push()
+      
+      }
       sh "docker rmi -f \$(docker images -q)"
       slackSend channel: '#cicd', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} yolov5_object_detection => Build/Push", teamDomain: 'k8sproject5', tokenCredentialId: 'kakaonibs-slack'
     }
@@ -43,13 +48,13 @@ node {
       Image_classfication_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/Image_classfication:${BUILD_NUMBER}", "-f ./Image_classfication/Dockerfile ./Image_classfication")
       docker.withRegistry('https://525348550799.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr:ap-southeast-1:jenkins_to_ecr_key') {
       Image_classfication_app.push()
+       }
       sh "docker rmi -f \$(docker images -q)"
       slackSend channel: '#cicd', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} Image_classfication => Build/Push", teamDomain: 'k8sproject5', tokenCredentialId: 'kakaonibs-slack'
     }
-    
+   
   } catch (e) {
     echo "Failed: ${e}"
     slackSend channel: '#jenkins_noti', color: '#FF0000', message: "${JOB_NAME} - #${BUILD_NUMBER} Build Error", teamDomain: 'k8sproject5', tokenCredentialId: 'slack-token'
   }
 }
-

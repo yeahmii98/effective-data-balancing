@@ -8,7 +8,7 @@ node {
       slackSend channel: '#jenkins_noti', color: '#4682B4', message: "${JOB_NAME} - #${BUILD_NUMBER} Cloning done", teamDomain: 'k8sproject5', tokenCredentialId: 'slack-token'
     }
     stage('[Build/Push] Frontend') {
-      frontend_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/frontend:${BUILD_NUMBER}", "-f ./frontend/Dockerfile ./frontend")
+      frontend_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/react-frontend:${BUILD_NUMBER}", "-f ./frontend/Dockerfile ./frontend")
       docker.withRegistry('https://525348550799.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr:ap-southeast-1:jenkins_to_ecr_key') {
       frontend_app.push()
      }
@@ -35,7 +35,7 @@ node {
     }
 
     stage('[Build/Push] yolov5_object_detection') {
-      yolov5_object_detection_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/yolov5_object_detection:${BUILD_NUMBER}", "-f ./yolov5_object_detection/Dockerfile ./yolov5_object_detection")
+      yolov5_object_detection_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/yolov5-detection:${BUILD_NUMBER}", "-f ./yolov5_object_detection/Dockerfile ./yolov5_object_detection")
       docker.withRegistry('https://525348550799.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr:ap-southeast-1:jenkins_to_ecr_key') {
       yolov5_object_detection_app.push()
       
@@ -45,7 +45,7 @@ node {
     }
 
     stage('[Build/Push] Image_classfication') {
-      Image_classfication_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/Image_classfication:${BUILD_NUMBER}", "-f ./Image_classfication/Dockerfile ./Image_classfication")
+      Image_classfication_app = docker.build("525348550799.dkr.ecr.ap-southeast-1.amazonaws.com/image-classfication:${BUILD_NUMBER}", "-f ./Image_classfication/Dockerfile ./Image_classfication")
       docker.withRegistry('https://525348550799.dkr.ecr.ap-southeast-1.amazonaws.com', 'ecr:ap-southeast-1:jenkins_to_ecr_key') {
       Image_classfication_app.push()
        }
@@ -58,3 +58,4 @@ node {
     slackSend channel: '#jenkins_noti', color: '#FF0000', message: "${JOB_NAME} - #${BUILD_NUMBER} Build Error", teamDomain: 'k8sproject5', tokenCredentialId: 'slack-token'
   }
 }
+
